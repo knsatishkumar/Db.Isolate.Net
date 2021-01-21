@@ -52,7 +52,7 @@ namespace Db.Isolate
             var tableJson = JObject.Parse(JsonConvert.SerializeObject(table))["Rows"];
             var results = (string)this.scenarioContext["results"];
             var resultJson =  JToken.Parse(results);
-            tableJson.ToString().ShouldBeEqualTo(resultJson.ToString());
+            tableJson.ToString().ToUpper().ShouldBeEqualTo(resultJson.ToString().ToUpper());
         }
         
         [When(@"I execute stored procedure ""(.*)"" which returns output parameters")]
@@ -88,7 +88,7 @@ namespace Db.Isolate
             string inputJson = this.scenarioContext["inputParameters"].ToString();
             string expectedJson = entityConvertor.GetOutParamJson(inputJson);
             string resultJson = this.scenarioContext["results"].ToString();
-            resultJson.ShouldBeEqualTo(expectedJson);
+            resultJson.ToUpper().ShouldBeEqualTo(expectedJson.ToUpper());
         }
     }
 }

@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ConfigurableTestsInSqlTable.feature" />
     <None Include="packages.config" />
     <None Include="StoredProcedure.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -73,7 +74,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine\Db.Isolate.csproj">
+    <ProjectReference Include="..\Db.Isolate\Db.Isolate.csproj">
       <Project>{55165814-E23A-48C4-8093-D03CC13D8401}</Project>
       <Name>Db.Isolate</Name>
     </ProjectReference>

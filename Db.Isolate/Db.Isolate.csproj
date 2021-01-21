@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoGenerateOrmClass.cs" />
+    <Compile Include="ConfigurableTableSteps.cs" />
     <Compile Include="DapperCrud.cs" />
     <Compile Include="DatabaseExecutor.cs" />
     <Compile Include="SpecflowTableConvertor.cs" />
