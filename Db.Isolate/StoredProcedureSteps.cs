@@ -12,6 +12,10 @@ namespace Db.Isolate
     [Binding]
     public class StoredProcedureSteps
     {
+        static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerMasterConnString"].ConnectionString;
+        static DapperCrud crudOperation = new DapperCrud(connectionString);
+
+
         private ScenarioContext scenarioContext; 
         IDatabaseExecutor databaseExecutor = new DatabaseExecutor();
         ITableConvertor entityConvertor = new SpecflowTableConvertor();
@@ -89,6 +93,16 @@ namespace Db.Isolate
             string expectedJson = entityConvertor.GetOutParamJson(inputJson);
             string resultJson = this.scenarioContext["results"].ToString();
             resultJson.ToUpper().ShouldBeEqualTo(expectedJson.ToUpper());
+        }
+
+
+        [Then(@"Call Rollback Database Step")]
+        public void ThenCallRollbackDatabaseStep()
+        {
+
+            string temp = "TRUNCATE TABLE Table_input";
+            //_query = String.Format(temp, _dbName, _backupFileName);
+            crudOperation.ExecuteCommand(temp, connectionString);
         }
     }
 }

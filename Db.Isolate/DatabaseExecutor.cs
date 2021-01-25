@@ -13,10 +13,10 @@ using Newtonsoft.Json;
 namespace Db.Isolate
 {
     public class DatabaseExecutor : IDatabaseExecutor
-    {
-        
-        static DapperCrud crudOperation = new DapperCrud();
+    {       
+       
         static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerConnString"].ConnectionString;
+        static DapperCrud crudOperation = new DapperCrud(connectionString);
 
         public void ExecuteCommand(string command)
         {

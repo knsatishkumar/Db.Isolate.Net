@@ -10,8 +10,9 @@ namespace Db.Isolate
     [Binding]
     public class ConfigurableTableSteps
     {
-        static DapperCrud crudOperation = new DapperCrud();
+        
         static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerConnString"].ConnectionString;
+        static DapperCrud crudOperation = new DapperCrud(connectionString);
 
         private ScenarioContext scenarioContext;
         IDatabaseExecutor databaseExecutor = new DatabaseExecutor();
@@ -35,17 +36,33 @@ namespace Db.Isolate
             //ScenarioContext.Current.Pending();
         }
 
-        [Given(@"Running using Transaction Rollback database test pattern")]
-        public void GivenRunningUsingTransactionRollbackDatabaseTestPattern()
+      
+
+
+        [Given(@"the first number is (.*)")]
+        public void GivenTheFirstNumberIs(int p0)
         {
             //ScenarioContext.Current.Pending();
         }
 
-        [Then(@"Call Rollback Database Step")]
-        public void ThenCallRollbackDatabaseStep()
+        [Given(@"the second number is (.*)")]
+        public void GivenTheSecondNumberIs(int p0)
         {
             //ScenarioContext.Current.Pending();
         }
+
+        [When(@"the two numbers are added")]
+        public void WhenTheTwoNumbersAreAdded()
+        {
+            //ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"the result should be (.*)")]
+        public void ThenTheResultShouldBe(int p0)
+        {
+            //ScenarioContext.Current.Pending();
+        }
+
 
 
     }

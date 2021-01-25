@@ -14,103 +14,127 @@ using Newtonsoft.Json;
 namespace Db.Isolate
 {
     public  class DapperCrud
-    {        
+    {
+        private string _connectionString;
+        private SqlConnection sqlConnection;
+        private SqlTransaction transaction;
+        public DapperCrud(string connectionString)
+        {
+            _connectionString = connectionString;
+            sqlConnection = new SqlConnection(connectionString);
+        }
         public bool Insert<T>(T parameter, string connectionString) where T : class
-        {            
-            using (var sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                sqlConnection.Insert(parameter); 
-                return true;
-            }
+        {
+            sqlConnection.Open();
+            sqlConnection.Insert(parameter);
+            sqlConnection.Close();
+            return true;
         }
 
         internal void ExecuteStoredProcedure(string procedureName , string connectionString)
         {
-            using (var sqlConnection = new SqlConnection(connectionString))
+            try
             {
                 sqlConnection.Open();
                 var RS = sqlConnection.Execute(procedureName, null, null, null, commandType: CommandType.StoredProcedure);
-                
-                //sqlConnection.Close();                
             }
+            finally
+            {
+                sqlConnection.Close();
+            }
+                   
         }
 
         internal void ExecuteCommand(string command, string connectionString)
-        {
-            using (var sqlConnection = new SqlConnection(connectionString))
+        {            
+            try
             {
                 sqlConnection.Open();
                 sqlConnection.Execute(command);
-                //sqlConnection.Close();                
             }
+            finally
+            {
+                sqlConnection.Close();
+            }           
+        }
+
+        internal void RollbackTransaction()
+        {           
+            transaction.Rollback();
+        }
+
+        internal void BeginTransaction()
+        {
+           transaction = sqlConnection.BeginTransaction();
         }
 
         public bool InsertQuery<T>(T parameter,string query, string connectionString) where T : class
         {
-
-            using (var sqlConnection = new SqlConnection(connectionString))
+            try
             {
-                sqlConnection.Open();                
+                sqlConnection.Open();
                 sqlConnection.Execute(query, parameter);
-                //sqlConnection.Close();
-                return true;
             }
+            finally
+            {
+                sqlConnection.Close();
+            }            
+            return true;
+            
         }
 
         public  int InsertWithReturnId<T>(T parameter, string connectionString) where T : class
         {
-            using (var sqlConnection = new SqlConnection(connectionString))
+            int recordId;
+            try
             {
                 sqlConnection.Open();
-                var recordId = sqlConnection.Insert(parameter);
-                //sqlConnection.Close();
-                return recordId;
+                recordId = sqlConnection.Insert(parameter);
             }
+            finally
+            {
+                sqlConnection.Close();
+            }            
+            return recordId;
+            
         }
 
         public  bool Update<T>(T parameter, string connectionString) where T : class
         {
-            using (var sqlConnection = new SqlConnection(connectionString))
-            {
+            //using (var sqlConnection = new SqlConnection(connectionString))
+            //{
                 sqlConnection.Open();
                 sqlConnection.Update(parameter);
-                //sqlConnection.Close();
+                sqlConnection.Close();
                 return true;
-            }
+            //}
         }
 
         public  IList<T> GetAll<T>(string connectionString) where T : class
-        {
-            using (var sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                var result = sqlConnection.GetList<T>();
-                //sqlConnection.Close();
-                return result.ToList();
-            }
+        {            
+            sqlConnection.Open();
+            var result = sqlConnection.GetList<T>();
+            sqlConnection.Close();
+            return result.ToList();            
         }
 
         public  T Find<T>(PredicateGroup predicate, string connectionString) where T : class
         {
-            using (var sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                var result = sqlConnection.GetList<T>(predicate).FirstOrDefault();
-                //sqlConnection.Close();
-                return result;
-            }
+            sqlConnection.Open();
+            var result = sqlConnection.GetList<T>(predicate).FirstOrDefault();
+            sqlConnection.Close();
+            return result;           
         }
 
         public  bool Delete<T>(PredicateGroup predicate, string connectionString) where T : class
         {
-            using (var sqlConnection = new SqlConnection(connectionString))
-            {
+            //using (var sqlConnection = new SqlConnection(connectionString))
+            //{
                 sqlConnection.Open();
                 sqlConnection.Delete<T>(predicate);
-                //sqlConnection.Close();
+                sqlConnection.Close();
                 return true;
-            }
+            //}
         }
 
         public  string QuerySP<T>(string storedProcedure, dynamic param = null,
@@ -161,6 +185,9 @@ namespace Db.Isolate
 
             return ConnectionTimeout;
         }
+
+
+
     }
 }
 
