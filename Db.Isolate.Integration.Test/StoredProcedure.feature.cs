@@ -230,7 +230,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 43
 this.ScenarioSetup(scenarioInfo);
 #line 45
- testRunner.Given("Using Transaction Rollback database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Using transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                         "Id",
@@ -258,23 +258,96 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.Then("Table \"Table_input\" contains records with the field \"Date\" daterange between \"201" +
                     "7-06-25\" and \"2017-06-26\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 52
- testRunner.Then("Table \"Table_input\" contains records with the field \"Id\" number equals \"3\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Table \"Table_input\" contains records with the field \"Date\" date equals \"2017-06-2" +
+                    "5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 53
- testRunner.Then("Table \"Table_input\" contains records with the field \"Name\" string equals \"xyz\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Table \"Table_input\" contains records with the field \"Id\" number equals \"3\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 54
- testRunner.Then("Table \"Table_input\" contains records with the field \"Id\" number greater than \"3\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Table \"Table_input\" contains records with the field \"Name\" string equals \"xyz\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 55
- testRunner.Then("Table \"Table_input\" contains records with the field \"Id\" number greater than \"1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Table \"Table_input\" contains records with the field \"Id\" number greater than \"3\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 56
- testRunner.Then("Table \"Table_input\" contains records with the field \"Id\" number lesser than \"5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Table \"Table_input\" contains records with the field \"Id\" number greater than \"1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 57
- testRunner.Then("Table \"Table_input\" contains records with the field \"Id\" number lesser than or eq" +
-                    "ual to \"5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Table \"Table_input\" contains records with the field \"Id\" number lesser than \"5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 58
- testRunner.Then("Table \"Table_input\" contains records with the field \"isPermanentAddress\" boolean " +
-                    "equals \"true\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Table \"Table_input\" contains records with the field \"Id\" number lesser than or eq" +
+                    "ual to \"5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 59
- testRunner.Then("Call Rollback Database Step", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Table \"Table_input\" contains records with the field \"isPermanentAddress\" boolean " +
+                    "equals \"True\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 60
+ testRunner.And("Table \"Table_input\" contains records with the field \"Name\" is not null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 61
+ testRunner.And("End transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TransactionRollbackPattern With some prequiste data in the table")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "StoredProcedure")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TransactionRollbackPattern")]
+        public virtual void TransactionRollbackPatternWithSomePrequisteDataInTheTable()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TransactionRollbackPattern With some prequiste data in the table", new string[] {
+                        "TransactionRollbackPattern"});
+#line 65
+this.ScenarioSetup(scenarioInfo);
+#line 67
+ testRunner.Given("Using transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 68
+ testRunner.And("Table \"Table_input\" contains records with the field \"Name\" string equals \"xyz\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 69
+ testRunner.When("I execute stored procedure \"sp_test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 71
+ testRunner.Then("Table \"Table_input\" contains records with the field \"Date\" date equals \"2017-06-2" +
+                    "5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 73
+ testRunner.And("Table \"Table_input\" contains records with the field \"Name\" is not null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 74
+ testRunner.And("End transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TransactionRollbackPattern With strored procedure having transactions")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "StoredProcedure")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TransactionRollbackPattern")]
+        public virtual void TransactionRollbackPatternWithStroredProcedureHavingTransactions()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TransactionRollbackPattern With strored procedure having transactions", new string[] {
+                        "TransactionRollbackPattern"});
+#line 79
+this.ScenarioSetup(scenarioInfo);
+#line 81
+ testRunner.Given("Using transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
+                        "Name",
+                        "Address",
+                        "isPermanentAddress",
+                        "Date"});
+            table7.AddRow(new string[] {
+                        "3",
+                        "xyz",
+                        "R.M Nagar",
+                        "true",
+                        "2017-06-25T00:00:00"});
+            table7.AddRow(new string[] {
+                        "4",
+                        "abc",
+                        "Electronic city",
+                        "true",
+                        "2017-06-26T00:00:00"});
+#line 82
+ testRunner.And("table name \"Table_input\" with test data", ((string)(null)), table7, "And ");
+#line 86
+ testRunner.When("I execute stored procedure \"sp_test_with_transaction\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 87
+ testRunner.Then("End transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

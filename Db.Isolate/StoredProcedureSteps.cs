@@ -96,7 +96,7 @@ namespace Db.Isolate
         }
 
 
-        [Then(@"Call Rollback Database Step")]
+        [Then(@"End transaction rollback pattern")]
         public void ThenCallRollbackDatabaseStep()
         {
 
@@ -106,7 +106,7 @@ namespace Db.Isolate
             crudOperation.RollbackTransaction();
         }
 
-        [Given(@"Using Transaction Rollback database")]
+        [Given(@"Using transaction rollback pattern")]
         public void GivenUsingTransactionRollbackDatabase()
         {
             crudOperation.BeginTransaction();
@@ -124,5 +124,6 @@ namespace Db.Isolate
         {
             crudOperation.CloseConnection();
         }
+
     }
 }

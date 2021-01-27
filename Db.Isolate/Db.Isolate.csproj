@@ -81,7 +81,8 @@
     <Compile Include="DatabasePatternsSteps.cs" />
     <Compile Include="SpecflowTableConvertor.cs" />
     <Compile Include="StoredProcedureSteps.cs" />
-    <Compile Include="TableColumnsLookupTestSteps.cs" />
+    <Compile Include="TableColumnsLookupSteps.cs" />
+    <Compile Include="TableSteps.cs" />
     <Compile Include="TextConverter.cs" />
     <Compile Include="IDatabaseExecutor.cs" />
     <Compile Include="ITableConvertor.cs" />

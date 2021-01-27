@@ -42,19 +42,45 @@ Scenario: Execute stored procedure with input and output parameters
 @TransactionRollbackPattern 
 Scenario: TransactionRollbackPattern Execute stored procedure
 	#Given  Using Transaction Rollback database test pattern	with DbName "testdb" and Backup file "D:\Temp\DbBackup\testdb.bak"
-	Given  Using Transaction Rollback database
+	Given  Using transaction rollback pattern
 	And table name "Table_input" with test data	
 	| Id | Name   | Address   | isPermanentAddress  | Date       |
 	| 3  | xyz | R.M Nagar | true | 2017-06-25T00:00:00 |
 	| 4 | abc  | Electronic city | true | 2017-06-26T00:00:00|	
 	When I execute stored procedure "sp_test"
 	Then Table "Table_input" contains records with the field "Date" daterange between "2017-06-25" and "2017-06-26"
-	Then Table "Table_input" contains records with the field "Id" number equals "3"
-	Then Table "Table_input" contains records with the field "Name" string equals "xyz"
-	Then Table "Table_input" contains records with the field "Id" number greater than "3"
-	Then Table "Table_input" contains records with the field "Id" number greater than "1"
-	Then Table "Table_input" contains records with the field "Id" number lesser than "5"
-	Then Table "Table_input" contains records with the field "Id" number lesser than or equal to "5"
-	Then Table "Table_input" contains records with the field "isPermanentAddress" boolean equals "true"
-	Then Call Rollback Database Step
+	Then Table "Table_input" contains records with the field "Date" date equals "2017-06-25"
+	And Table "Table_input" contains records with the field "Id" number equals "3"
+	And Table "Table_input" contains records with the field "Name" string equals "xyz"
+	And Table "Table_input" contains records with the field "Id" number greater than "3"
+	And Table "Table_input" contains records with the field "Id" number greater than "1"
+	And Table "Table_input" contains records with the field "Id" number lesser than "5"
+	And Table "Table_input" contains records with the field "Id" number lesser than or equal to "5"
+	And Table "Table_input" contains records with the field "isPermanentAddress" boolean equals "True"
+	And Table "Table_input" contains records with the field "Name" is not null
+	And End transaction rollback pattern
+
+
+@TransactionRollbackPattern 
+Scenario: TransactionRollbackPattern With some prequiste data in the table
+	#Given  Using Transaction Rollback database test pattern	with DbName "testdb" and Backup file "D:\Temp\DbBackup\testdb.bak"
+	Given  Using transaction rollback pattern
+	And Table "Table_input" contains records with the field "Name" string equals "xyz"
+	When I execute stored procedure "sp_test"	
+	Then Table "Table_input" contains records with the field "Date" date equals "2017-06-25"	
+	And Table "Table_input" contains records with the field "Name" is not null
+	And End transaction rollback pattern
+
+
+
+@TransactionRollbackPattern 
+Scenario: TransactionRollbackPattern With strored procedure having transactions
+	#Given  Using Transaction Rollback database test pattern	with DbName "testdb" and Backup file "D:\Temp\DbBackup\testdb.bak"
+	Given  Using transaction rollback pattern
+	And table name "Table_input" with test data	
+	| Id | Name   | Address   | isPermanentAddress  | Date       |
+	| 3  | xyz | R.M Nagar | true | 2017-06-25T00:00:00 |
+	| 4 | abc  | Electronic city | true | 2017-06-26T00:00:00|
+	When I execute stored procedure "sp_test_with_transaction"
+	Then End transaction rollback pattern
 	

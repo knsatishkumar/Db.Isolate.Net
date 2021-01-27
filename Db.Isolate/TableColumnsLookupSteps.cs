@@ -10,7 +10,7 @@ using System.Globalization;
 namespace Db.Isolate
 {
     [Binding]
-    public class TableColumnsLookupTestSteps
+    public class TableColumnsLookupSteps
     {
         DapperCrud crudOperation = DapperCrud.Instance;
 
@@ -19,7 +19,7 @@ namespace Db.Isolate
         IDatabaseExecutor databaseExecutor = new DatabaseExecutor();
         ITableConvertor entityConvertor = new SpecflowTableConvertor();
 
-        public TableColumnsLookupTestSteps(ScenarioContext scenarioContext)
+        public TableColumnsLookupSteps(ScenarioContext scenarioContext)
         {
             this.scenarioContext = scenarioContext;
 
@@ -31,6 +31,56 @@ namespace Db.Isolate
             DateTime ToDate = DateTime.ParseExact(date2, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}>='{2}' AND {1}<= '{3}' ", tableName , columnName , date1, date2  );
+            int results = crudOperation.QueryScalar(query);
+            results.ShouldBeGreaterThan(0);
+        }
+
+        [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" date equals ""(.*)""")]
+        public void ThenTableContainsRecordsWithTheFieldDateEquals(string tableName, string columnName, string value)
+        {
+            DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);           
+
+            string query = String.Format("SELECT {1} FROM {0} WHERE {1}='{2}' ", tableName, columnName, value);
+            int results = crudOperation.QueryScalar(query);
+            results.ShouldBeGreaterThan(0);
+        }
+
+        [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" date greater than ""(.*)""")]
+        public void ThenTableContainsRecordsWithTheFieldDateGreaterThan(string tableName, string columnName, string value)
+        {
+            DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            string query = String.Format("SELECT {1} FROM {0} WHERE {1}>'{2}' ", tableName, columnName, value);
+            int results = crudOperation.QueryScalar(query);
+            results.ShouldBeGreaterThan(0);
+        }
+
+        [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" date greater than or equal to""(.*)""")]
+        public void ThenTableContainsRecordsWithTheFieldDateGreaterThanOrEqualTo(string tableName, string columnName, string value)
+        {
+            DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            string query = String.Format("SELECT {1} FROM {0} WHERE {1}>='{2}' ", tableName, columnName, value);
+            int results = crudOperation.QueryScalar(query);
+            results.ShouldBeGreaterThan(0);
+        }
+
+        [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" date lesser than or equal to""(.*)""")]
+        public void ThenTableContainsRecordsWithTheFieldLesserThanOrEqualTo(string tableName, string columnName, string value)
+        {
+            DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            string query = String.Format("SELECT {1} FROM {0} WHERE {1}<='{2}' ", tableName, columnName, value);
+            int results = crudOperation.QueryScalar(query);
+            results.ShouldBeGreaterThan(0);
+        }
+
+        [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" date lesser than ""(.*)""")]
+        public void ThenTableContainsRecordsWithTheFieldDateLesserThan(string tableName, string columnName, string value)
+        {
+            DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            string query = String.Format("SELECT {1} FROM {0} WHERE {1}<'{2}' ", tableName, columnName, value);
             int results = crudOperation.QueryScalar(query);
             results.ShouldBeGreaterThan(0);
         }
@@ -92,8 +142,30 @@ namespace Db.Isolate
             results.ShouldBeGreaterThan(0);
         }
 
+        [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" is not null")]
+        public void ThenTableContainsRecordsWithTheFieldIsNotNull(string tableName, string columnName)
+        {
+            string query = String.Format("SELECT {1} FROM {0} WHERE {1} IS NOT NULL", tableName, columnName);
+            int results = crudOperation.QueryScalar(query);
+            results.ShouldBeGreaterThan(0);
+        }
+
+        [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" is null")]
+        public void ThenTableContainsRecordsWithTheFieldIsNull(string tableName, string columnName)
+        {
+            string query = String.Format("SELECT {1} FROM {0} WHERE {1} IS NULL", tableName, columnName);
+            int results = crudOperation.QueryScalar(query);
+            results.ShouldBeGreaterThan(0);
+        }
 
 
+        [Given(@"Table ""(.*)"" contains records with the field ""(.*)"" string equals ""(.*)""")]
+        public void GivenTableContainsRecordsWithTheFieldStringEquals(string tableName, string columnName, string value)        
+        {
+            string query = String.Format("SELECT {1} FROM {0} WHERE {1}='{2}'", tableName, columnName, value);
+            int results = crudOperation.QueryScalar(query);
+            results.ShouldBeGreaterThan(0);
+        }
 
-    }
+}
 }
