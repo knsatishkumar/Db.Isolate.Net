@@ -12,8 +12,8 @@ namespace Db.Isolate
     [Binding]
     public class StoredProcedureSteps
     {
-        static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerMasterConnString"].ConnectionString;
-        static DapperCrud crudOperation = new DapperCrud(connectionString);
+        //static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerMasterConnString"].ConnectionString;
+        DapperCrud crudOperation = DapperCrud.Instance;
 
 
         private ScenarioContext scenarioContext; 
@@ -100,9 +100,29 @@ namespace Db.Isolate
         public void ThenCallRollbackDatabaseStep()
         {
 
-            string temp = "TRUNCATE TABLE Table_input";
+            //string temp = "TRUNCATE TABLE Table_input";
             //_query = String.Format(temp, _dbName, _backupFileName);
-            crudOperation.ExecuteCommand(temp, connectionString);
+            //crudOperation.ExecuteCommand(temp, connectionString);
+            crudOperation.RollbackTransaction();
+        }
+
+        [Given(@"Using Transaction Rollback database")]
+        public void GivenUsingTransactionRollbackDatabase()
+        {
+            crudOperation.BeginTransaction();
+        }
+
+
+        [BeforeScenario]
+        public void BeforeScenarioSetup(ScenarioContext scenarioContext)
+        {
+            crudOperation.OpenConnection();
+        }
+
+        [AfterScenario]
+        public void BeforeScenarioTearDown(ScenarioContext scenarioContext)
+        {
+            crudOperation.CloseConnection();
         }
     }
 }

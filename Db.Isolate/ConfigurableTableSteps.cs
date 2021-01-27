@@ -9,11 +9,9 @@ namespace Db.Isolate
 {
     [Binding]
     public class ConfigurableTableSteps
-    {
+    {        
         
-        static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerConnString"].ConnectionString;
-        static DapperCrud crudOperation = new DapperCrud(connectionString);
-
+        static DapperCrud crudOperation = DapperCrud.Instance;
         private ScenarioContext scenarioContext;
         IDatabaseExecutor databaseExecutor = new DatabaseExecutor();
         ITableConvertor entityConvertor = new SpecflowTableConvertor();

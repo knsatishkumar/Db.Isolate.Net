@@ -75,11 +75,13 @@
   <ItemGroup>
     <Compile Include="AutoGenerateOrmClass.cs" />
     <Compile Include="ConfigurableTableSteps.cs" />
+    <Compile Include="CrudOperationService.cs" />
     <Compile Include="DapperCrud.cs" />
     <Compile Include="DatabaseExecutor.cs" />
     <Compile Include="DatabasePatternsSteps.cs" />
     <Compile Include="SpecflowTableConvertor.cs" />
     <Compile Include="StoredProcedureSteps.cs" />
+    <Compile Include="TableColumnsLookupTestSteps.cs" />
     <Compile Include="TextConverter.cs" />
     <Compile Include="IDatabaseExecutor.cs" />
     <Compile Include="ITableConvertor.cs" />

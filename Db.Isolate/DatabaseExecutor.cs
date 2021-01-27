@@ -16,7 +16,7 @@ namespace Db.Isolate
     {       
        
         static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerConnString"].ConnectionString;
-        static DapperCrud crudOperation = new DapperCrud(connectionString);
+        static DapperCrud crudOperation = DapperCrud.Instance;
 
         public void ExecuteCommand(string command)
         {

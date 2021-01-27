@@ -15,19 +15,68 @@ namespace Db.Isolate
 {
     public  class DapperCrud
     {
+
         private string _connectionString;
+        private string _masterDbconnectionString;
         private SqlConnection sqlConnection;
+        private SqlConnection sqlMasterDbConnection;
         private SqlTransaction transaction;
-        public DapperCrud(string connectionString)
+
+        private static readonly DapperCrud instance = new DapperCrud();
+
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static DapperCrud()
         {
-            _connectionString = connectionString;
-            sqlConnection = new SqlConnection(connectionString);
+        }
+
+        private DapperCrud()
+        {            
+            _connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerConnString"].ConnectionString;
+            _masterDbconnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerMasterConnString"].ConnectionString;
+            sqlConnection = new SqlConnection(_connectionString);
+            sqlMasterDbConnection = new SqlConnection(_masterDbconnectionString);
+        }
+
+        internal int QueryScalar(string query)
+        {
+            return sqlConnection.Query(query , transaction:transaction).ToList().Count;
+        }
+
+        public static DapperCrud Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+        //public DapperCrud(string connectionstring)
+        //{
+        //    _connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerMasterConnString"].ConnectionString; ;
+        //    _masterDbconnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerMasterConnString"].ConnectionString; ;
+        //    sqlConnection = new SqlConnection(connectionstring);
+        //    sqlMasterDbConnection = new SqlConnection(_masterDbconnectionString);
+        //}
+
+        public void OpenConnection()
+        {
+            if (sqlConnection.State == ConnectionState.Closed)
+            {
+                sqlConnection.Open();
+            }
+        }
+        public void CloseConnection()
+        {
+            if (sqlConnection.State != ConnectionState.Closed)
+            {
+                sqlConnection.Close();
+            }
         }
         public bool Insert<T>(T parameter, string connectionString) where T : class
         {
-            sqlConnection.Open();
+            //sqlConnection.Open();
             sqlConnection.Insert(parameter);
-            sqlConnection.Close();
+            //sqlConnection.Close();
             return true;
         }
 
@@ -35,12 +84,12 @@ namespace Db.Isolate
         {
             try
             {
-                sqlConnection.Open();
+                //sqlConnection.Open();
                 var RS = sqlConnection.Execute(procedureName, null, null, null, commandType: CommandType.StoredProcedure);
             }
             finally
             {
-                sqlConnection.Close();
+                //sqlConnection.Close();
             }
                    
         }
@@ -49,12 +98,12 @@ namespace Db.Isolate
         {            
             try
             {
-                sqlConnection.Open();
+                //sqlConnection.Open();
                 sqlConnection.Execute(command);
             }
             finally
             {
-                sqlConnection.Close();
+                //sqlConnection.Close();
             }           
         }
 
@@ -72,12 +121,12 @@ namespace Db.Isolate
         {
             try
             {
-                sqlConnection.Open();
-                sqlConnection.Execute(query, parameter);
+                //sqlConnection.Open();
+                sqlConnection.Execute(query, parameter, transaction:this.transaction);
             }
             finally
             {
-                sqlConnection.Close();
+                //sqlConnection.Close();
             }            
             return true;
             
@@ -88,12 +137,12 @@ namespace Db.Isolate
             int recordId;
             try
             {
-                sqlConnection.Open();
-                recordId = sqlConnection.Insert(parameter);
+                //sqlConnection.Open();
+                recordId = sqlConnection.Insert(parameter, transaction: this.transaction);
             }
             finally
             {
-                sqlConnection.Close();
+                //sqlConnection.Close();
             }            
             return recordId;
             
@@ -103,26 +152,26 @@ namespace Db.Isolate
         {
             //using (var sqlConnection = new SqlConnection(connectionString))
             //{
-                sqlConnection.Open();
-                sqlConnection.Update(parameter);
-                sqlConnection.Close();
+                //sqlConnection.Open();
+                sqlConnection.Update(parameter, transaction: this.transaction);
+                //sqlConnection.Close();
                 return true;
             //}
         }
 
         public  IList<T> GetAll<T>(string connectionString) where T : class
         {            
-            sqlConnection.Open();
+            //sqlConnection.Open();
             var result = sqlConnection.GetList<T>();
-            sqlConnection.Close();
+            //sqlConnection.Close();
             return result.ToList();            
         }
 
         public  T Find<T>(PredicateGroup predicate, string connectionString) where T : class
         {
-            sqlConnection.Open();
-            var result = sqlConnection.GetList<T>(predicate).FirstOrDefault();
-            sqlConnection.Close();
+            //sqlConnection.Open();
+            var result = sqlConnection.GetList<T>(predicate).FirstOrDefault();           
+            //sqlConnection.Close();
             return result;           
         }
 
@@ -130,9 +179,9 @@ namespace Db.Isolate
         {
             //using (var sqlConnection = new SqlConnection(connectionString))
             //{
-                sqlConnection.Open();
-                sqlConnection.Delete<T>(predicate);
-                sqlConnection.Close();
+                //sqlConnection.Open();
+                sqlConnection.Delete<T>(predicate, transaction: this.transaction);
+                //sqlConnection.Close();
                 return true;
             //}
         }
@@ -141,10 +190,10 @@ namespace Db.Isolate
             dynamic outParam = null, SqlTransaction transaction = null,
             bool buffered = true, int? commandTimeout = null, string connectionString = null) where T : class
         {
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-            var output = connection.Query<dynamic>(storedProcedure, param: (object)param,
-                transaction: transaction, buffered: buffered, commandTimeout: commandTimeout, commandType: CommandType.StoredProcedure);
+            //SqlConnection connection = new SqlConnection(connectionString);
+            //connection.Open();
+            var output = sqlConnection.Query<dynamic>(storedProcedure, param: (object)param,
+                transaction: this.transaction, buffered: buffered, commandTimeout: commandTimeout, commandType: CommandType.StoredProcedure);
             
             string json = JsonConvert.SerializeObject(
                   output.Select(x => x)

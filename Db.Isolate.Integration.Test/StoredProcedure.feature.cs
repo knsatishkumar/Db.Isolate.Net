@@ -229,9 +229,8 @@ this.ScenarioSetup(scenarioInfo);
                         "TransactionRollbackPattern"});
 #line 43
 this.ScenarioSetup(scenarioInfo);
-#line 44
- testRunner.Given("Using Transaction Rollback database test pattern\twith DbName \"testdb\" and Backup " +
-                    "file \"D:\\Temp\\DbBackup\\testdb.bak\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 45
+ testRunner.Given("Using Transaction Rollback database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                         "Id",
@@ -240,22 +239,41 @@ this.ScenarioSetup(scenarioInfo);
                         "isPermanentAddress",
                         "Date"});
             table6.AddRow(new string[] {
-                        "1",
+                        "3",
                         "xyz",
                         "R.M Nagar",
                         "true",
                         "2017-06-25T00:00:00"});
             table6.AddRow(new string[] {
-                        "2",
+                        "4",
                         "abc",
                         "Electronic city",
                         "true",
-                        "2017-06-25T00:00:00"});
-#line 45
+                        "2017-06-26T00:00:00"});
+#line 46
  testRunner.And("table name \"Table_input\" with test data", ((string)(null)), table6, "And ");
-#line 49
- testRunner.When("I execute stored procedure \"sp_test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 50
+ testRunner.When("I execute stored procedure \"sp_test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 51
+ testRunner.Then("Table \"Table_input\" contains records with the field \"Date\" daterange between \"201" +
+                    "7-06-25\" and \"2017-06-26\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 52
+ testRunner.Then("Table \"Table_input\" contains records with the field \"Id\" number equals \"3\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 53
+ testRunner.Then("Table \"Table_input\" contains records with the field \"Name\" string equals \"xyz\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 54
+ testRunner.Then("Table \"Table_input\" contains records with the field \"Id\" number greater than \"3\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 55
+ testRunner.Then("Table \"Table_input\" contains records with the field \"Id\" number greater than \"1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 56
+ testRunner.Then("Table \"Table_input\" contains records with the field \"Id\" number lesser than \"5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 57
+ testRunner.Then("Table \"Table_input\" contains records with the field \"Id\" number lesser than or eq" +
+                    "ual to \"5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 58
+ testRunner.Then("Table \"Table_input\" contains records with the field \"isPermanentAddress\" boolean " +
+                    "equals \"true\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 59
  testRunner.Then("Call Rollback Database Step", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -264,4 +282,3 @@ this.ScenarioSetup(scenarioInfo);
 }
 #pragma warning restore
 #endregion
-

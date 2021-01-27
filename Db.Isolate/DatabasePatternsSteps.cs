@@ -12,7 +12,7 @@ namespace Db.Isolate
     class DatabasePatternsSteps
     {
         static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServerMasterConnString"].ConnectionString;
-        static DapperCrud crudOperation = new DapperCrud(connectionString);
+        static DapperCrud crudOperation = DapperCrud.Instance;
 
         private string _dbName; 
         private string _backupFileName; 
