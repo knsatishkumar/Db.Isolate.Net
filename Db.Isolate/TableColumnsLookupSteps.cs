@@ -19,6 +19,8 @@ namespace Db.Isolate
         IDatabaseExecutor databaseExecutor = new DatabaseExecutor();
         ITableConvertor entityConvertor = new SpecflowTableConvertor();
 
+        List<string> _givenQueries = new List<string>();
+
         public TableColumnsLookupSteps(ScenarioContext scenarioContext)
         {
             this.scenarioContext = scenarioContext;
@@ -167,5 +169,87 @@ namespace Db.Isolate
             results.ShouldBeGreaterThan(0);
         }
 
-}
+        [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" length is ""(.*)""")]
+        public void ThenTableContainsRecordsWithTheFieldLengthIs(string tableName, string columnName, int length)
+        {
+            string query = String.Format("SELECT LEN({1}) FROM {0}", tableName, columnName, length);
+            string givenQueryFilter = "";
+            if (_givenQueries.Count > 0 )
+            {                
+                for (int i = 0; i < _givenQueries.Count; i++)
+                {
+                    if(i==0)
+                    {
+                        givenQueryFilter = " WHERE " + _givenQueries[i];
+                    }
+                    else
+                    {
+                        givenQueryFilter = " AND " + _givenQueries[i];
+                    }
+                }
+            }
+            query = query + givenQueryFilter;
+            var results = crudOperation.Query<int>(query);
+            int negativeResult = results.Where(x => x != length).Count();
+            string errorMessage = String.Format(" Expected length for the field '{0}' was '{1}', but contains '{2}' no. of records where length is NOT '{1}'", columnName, length, negativeResult, length);
+            negativeResult.ShouldBeEqualTo(0 , errorMessage);
+            _givenQueries.Clear();
+        }
+
+        [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" contains all the values")]
+        public void ThenTableContainsRecordsWithTheFieldContainsAllTheValues(string tableName, string columnName, Table table)
+        {
+            //var List = table.CreateSet<string>;
+            int length = 0;
+            string query = String.Format("SELECT {1} FROM {0}", tableName, columnName, length);
+            string givenQueryFilter = "";
+            if (_givenQueries.Count > 0)
+            {
+                for (int i = 0; i < _givenQueries.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        givenQueryFilter = " WHERE " + _givenQueries[i];
+                    }
+                    else
+                    {
+                        givenQueryFilter = " AND " + _givenQueries[i];
+                    }
+                }
+            }
+            query = query + givenQueryFilter;
+            var results = crudOperation.Query<int>(query);
+            int negativeResult = results.Where(x => x != length).Count();
+            string errorMessage = String.Format(" Expected length for the field '{0}' was '{1}', but contains '{2}' no. of records where length is NOT '{1}'", columnName, length, negativeResult, length);
+            negativeResult.ShouldBeEqualTo(0, errorMessage);
+            _givenQueries.Clear();
+        }
+
+        [Then(@"Table ""(.*)"" contains records with")]
+        public void ThenTableContainsRecordsWith(string tableName, Table table)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
+        [Given(@"Table ""(.*)"" contains records with the field ""(.*)"" date equals ""(.*)""")]
+        public void GivenTableContainsRecordsWithTheFieldDateEquals(string tableName, string columnName, string value)
+        {
+            DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            string query = String.Format("SELECT {1} FROM {0} WHERE {1}='{2}' ", tableName, columnName, value);
+            int results = crudOperation.QueryScalar(query);
+            results.ShouldBeGreaterThan(0);
+            _givenQueries.Add(String.Format(" {0}='{1}' ", columnName, value));
+            if (this.scenarioContext.ContainsKey("_givenQueries"))
+            {
+                this.scenarioContext["_givenQueries"] = _givenQueries;
+            }
+            else
+            {
+                this.scenarioContext.Add("_givenQueries", _givenQueries);
+            }
+        }
+
+    }
 }

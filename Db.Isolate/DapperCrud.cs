@@ -43,6 +43,10 @@ namespace Db.Isolate
             return sqlConnection.Query(query , transaction:transaction).ToList().Count;
         }
 
+        internal IEnumerable<T> Query<T>(string query)
+        {
+            return sqlConnection.Query<T>(query, transaction: transaction).ToList();
+        }
         public static DapperCrud Instance
         {
             get
