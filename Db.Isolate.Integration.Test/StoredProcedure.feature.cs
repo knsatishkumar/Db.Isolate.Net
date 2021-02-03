@@ -432,13 +432,19 @@ this.ScenarioSetup(scenarioInfo);
                         "abc",
                         "Electronic city",
                         "true",
+                        "2017-06-25T00:00:00"});
+            table9.AddRow(new string[] {
+                        "5",
+                        "abc",
+                        "Electronic city",
+                        "true",
                         "2017-06-26T00:00:00"});
 #line 110
  testRunner.And("table name \"Table_input\" with test data", ((string)(null)), table9, "And ");
-#line 114
+#line 115
  testRunner.And("Table \"Table_input\" contains records with the field \"Date\" date equals \"2017-06-2" +
                     "5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 115
+#line 116
  testRunner.When("I execute stored procedure \"sp_test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
@@ -447,26 +453,28 @@ this.ScenarioSetup(scenarioInfo);
                         "xyz"});
             table10.AddRow(new string[] {
                         "abc"});
-#line 117
+#line 118
  testRunner.Then("Table \"Table_input\" contains records with the field \"Name\" contains all the value" +
                     "s", ((string)(null)), table10, "Then ");
-#line 121
+#line 122
  testRunner.And("End transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TransactionRollbackPattern Execute stored procedure for multi condition query")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TransactionRollbackPattern Execute stored procedure for results with columns valu" +
+            "e is not null")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "StoredProcedure")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TransactionRollbackPattern")]
-        public virtual void TransactionRollbackPatternExecuteStoredProcedureForMultiConditionQuery()
+        public virtual void TransactionRollbackPatternExecuteStoredProcedureForResultsWithColumnsValueIsNotNull()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TransactionRollbackPattern Execute stored procedure for multi condition query", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TransactionRollbackPattern Execute stored procedure for results with columns valu" +
+                    "e is not null", new string[] {
                         "TransactionRollbackPattern"});
-#line 125
+#line 129
 this.ScenarioSetup(scenarioInfo);
-#line 127
+#line 131
  testRunner.Given("Using transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
@@ -486,31 +494,139 @@ this.ScenarioSetup(scenarioInfo);
                         "abc",
                         "Electronic city",
                         "true",
+                        "2017-06-25T00:00:00"});
+            table11.AddRow(new string[] {
+                        "5",
+                        "abc",
+                        "Electronic city",
+                        "true",
                         "2017-06-26T00:00:00"});
-#line 128
- testRunner.And("table name \"Table_input\" with test data", ((string)(null)), table11, "And ");
 #line 132
+ testRunner.And("table name \"Table_input\" with test data", ((string)(null)), table11, "And ");
+#line 137
+ testRunner.And("Table \"Table_input\" contains records with the field \"Date\" date equals \"2017-06-2" +
+                    "5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 138
  testRunner.When("I execute stored procedure \"sp_test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 140
+ testRunner.Then("Table \"Table_input\" contains records with the field \"Name\" is not null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 141
+ testRunner.And("End transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TransactionRollbackPattern Execute stored procedure for results with minimum numb" +
+            "er of rows")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "StoredProcedure")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TransactionRollbackPattern")]
+        public virtual void TransactionRollbackPatternExecuteStoredProcedureForResultsWithMinimumNumberOfRows()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TransactionRollbackPattern Execute stored procedure for results with minimum numb" +
+                    "er of rows", new string[] {
+                        "TransactionRollbackPattern"});
+#line 145
+this.ScenarioSetup(scenarioInfo);
+#line 147
+ testRunner.Given("Using transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
+                        "Name",
+                        "Address",
+                        "isPermanentAddress",
+                        "Date"});
+            table12.AddRow(new string[] {
+                        "3",
+                        "xyz",
+                        "R.M Nagar",
+                        "true",
+                        "2017-06-25T00:00:00"});
+            table12.AddRow(new string[] {
+                        "4",
+                        "abc",
+                        "Electronic city",
+                        "true",
+                        "2017-06-25T00:00:00"});
+            table12.AddRow(new string[] {
+                        "5",
+                        "abc",
+                        "Electronic city",
+                        "true",
+                        "2017-06-26T00:00:00"});
+#line 148
+ testRunner.And("table name \"Table_input\" with test data", ((string)(null)), table12, "And ");
+#line 153
+ testRunner.And("Table \"Table_input\" contains records with the field \"Date\" date equals \"2017-06-2" +
+                    "5\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 154
+ testRunner.When("I execute stored procedure \"sp_test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 156
+ testRunner.Then("Result contains record count greater than \"2\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 157
+ testRunner.And("End transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TransactionRollbackPattern Execute stored procedure for multi condition query")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "StoredProcedure")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TransactionRollbackPattern")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NotImplemented")]
+        public virtual void TransactionRollbackPatternExecuteStoredProcedureForMultiConditionQuery()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TransactionRollbackPattern Execute stored procedure for multi condition query", new string[] {
+                        "TransactionRollbackPattern",
+                        "NotImplemented"});
+#line 162
+this.ScenarioSetup(scenarioInfo);
+#line 164
+ testRunner.Given("Using transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
+                        "Name",
+                        "Address",
+                        "isPermanentAddress",
+                        "Date"});
+            table13.AddRow(new string[] {
+                        "3",
+                        "xyz",
+                        "R.M Nagar",
+                        "true",
+                        "2017-06-25T00:00:00"});
+            table13.AddRow(new string[] {
+                        "4",
+                        "abc",
+                        "Electronic city",
+                        "true",
+                        "2017-06-26T00:00:00"});
+#line 165
+ testRunner.And("table name \"Table_input\" with test data", ((string)(null)), table13, "And ");
+#line 169
+ testRunner.When("I execute stored procedure \"sp_test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
                         "Field",
                         "Condition",
                         "Value"});
-            table12.AddRow(new string[] {
+            table14.AddRow(new string[] {
                         "Name",
                         "string equals",
                         "abc"});
-            table12.AddRow(new string[] {
+            table14.AddRow(new string[] {
                         "Date",
                         "date equals",
                         "2017-06-25"});
-            table12.AddRow(new string[] {
+            table14.AddRow(new string[] {
                         "Name",
                         "length equals",
                         "3"});
-#line 133
- testRunner.Then("Table \"Table_input\" contains records with", ((string)(null)), table12, "Then ");
-#line 138
+#line 170
+ testRunner.Then("Table \"Table_input\" contains records with", ((string)(null)), table14, "Then ");
+#line 175
  testRunner.And("End transaction rollback pattern", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using FluentAssert;
 using System.Globalization;
+using Newtonsoft.Json.Linq;
 
 namespace Db.Isolate
 {
@@ -199,7 +200,13 @@ namespace Db.Isolate
         [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" contains all the values")]
         public void ThenTableContainsRecordsWithTheFieldContainsAllTheValues(string tableName, string columnName, Table table)
         {
+            //table.Header.Count().ShouldBeEqualTo(1 , "This step expects only one column but the input contains " + table.Header.Count() + " columns ");
             //var List = table.CreateSet<string>;
+            List<string> allValues = new List<string>();
+            foreach (var item in table.Rows)
+            {
+                allValues.Add(item.Values.ToList().FirstOrDefault());
+            }
             int length = 0;
             string query = String.Format("SELECT {1} FROM {0}", tableName, columnName, length);
             string givenQueryFilter = "";
@@ -218,10 +225,12 @@ namespace Db.Isolate
                 }
             }
             query = query + givenQueryFilter;
-            var results = crudOperation.Query<int>(query);
-            int negativeResult = results.Where(x => x != length).Count();
-            string errorMessage = String.Format(" Expected length for the field '{0}' was '{1}', but contains '{2}' no. of records where length is NOT '{1}'", columnName, length, negativeResult, length);
-            negativeResult.ShouldBeEqualTo(0, errorMessage);
+            var results = crudOperation.Query<string>(query);
+            bool containsAll = allValues.All(x => results.Contains(x));
+            containsAll.ShouldBeTrue();
+            //int negativeResult = results.Where(x => x != length).Count();
+            //string errorMessage = String.Format(" Expected length for the field '{0}' was '{1}', but contains '{2}' no. of records where length is NOT '{1}'", columnName, length, negativeResult, length);
+            //negativeResult.ShouldBeEqualTo(0, errorMessage);
             _givenQueries.Clear();
         }
 
@@ -250,6 +259,17 @@ namespace Db.Isolate
                 this.scenarioContext.Add("_givenQueries", _givenQueries);
             }
         }
+
+        [Then(@"Result contains record count greater than ""(.*)""")]
+        public void ThenResultContainsRecordCountGreaterThan(int rowCount)
+        {            
+            string resultJson = this.scenarioContext["results"].ToString();
+
+            dynamic stuff = JArray.Parse(resultJson);
+            int count = stuff.Count;
+            count.ShouldBeGreaterThan(rowCount);
+        }
+
 
     }
 }
