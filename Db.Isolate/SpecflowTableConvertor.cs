@@ -17,7 +17,7 @@ namespace Db.Isolate
             return result;
         }
 
-        public object ConvertToObject(string tableName , string jsonTable)
+        public dynamic ConvertToObject(string tableName , string jsonTable)
         {   
             var type = Type.GetType(tableName);
             return Newtonsoft.Json.JsonConvert.DeserializeObject(jsonTable, type);            

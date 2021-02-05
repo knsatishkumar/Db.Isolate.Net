@@ -72,6 +72,11 @@
       <DependentUpon>DatabasePatterns.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlQueries.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SqlQueries.feature</DependentUpon>
+    </Compile>
     <Compile Include="StoredProcedure.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -94,6 +99,10 @@
       <LastGenOutput>DatabasePatterns.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="SqlQueries.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SqlQueries.feature.cs</LastGenOutput>
+    </None>
     <None Include="StoredProcedure.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>StoredProcedure.feature.cs</LastGenOutput>

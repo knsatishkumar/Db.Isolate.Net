@@ -34,7 +34,7 @@ namespace Db.Isolate
             DateTime ToDate = DateTime.ParseExact(date2, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}>='{2}' AND {1}<= '{3}' ", tableName , columnName , date1, date2  );
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -44,7 +44,7 @@ namespace Db.Isolate
             DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);           
 
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}='{2}' ", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -54,7 +54,7 @@ namespace Db.Isolate
             DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}>'{2}' ", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -64,7 +64,7 @@ namespace Db.Isolate
             DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}>='{2}' ", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -74,7 +74,7 @@ namespace Db.Isolate
             DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}<='{2}' ", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -84,7 +84,7 @@ namespace Db.Isolate
             DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}<'{2}' ", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -92,7 +92,7 @@ namespace Db.Isolate
         public void ThenTableContainsRecordsWithTheFieldNumberEquals(string tableName, string columnName, int value)
         {
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}={2}", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -101,7 +101,7 @@ namespace Db.Isolate
         public void ThenTableContainsRecordsWithTheFieldStringEquals(string tableName, string columnName, string value)
         {
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}='{2}'", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -109,7 +109,7 @@ namespace Db.Isolate
         public void ThenTableContainsRecordsWithTheFieldNumberGreaterThan(string tableName, string columnName, int value)
         {
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}>{2}", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -117,7 +117,7 @@ namespace Db.Isolate
         public void ThenTableContainsRecordsWithTheFieldNumberGreaterThanOrEqualTo(string tableName, string columnName, int value)
         {
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}>={2}", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -125,7 +125,7 @@ namespace Db.Isolate
         public void ThenTableContainsRecordsWithTheFieldNumberLesserThan(string tableName, string columnName, int value)
         {
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}<{2}", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -133,7 +133,7 @@ namespace Db.Isolate
         public void ThenTableContainsRecordsWithTheFieldNumberLesserThanOrEqualTo(string tableName, string columnName, int value)
         {
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}<={2}", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -141,7 +141,7 @@ namespace Db.Isolate
         public void ThenTableContainsRecordsWithTheFieldBooleanEquals(string tableName, string columnName, string value)
         {
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}='{2}'", tableName, columnName, bool.Parse(value)?'1':'0');
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -149,7 +149,7 @@ namespace Db.Isolate
         public void ThenTableContainsRecordsWithTheFieldIsNotNull(string tableName, string columnName)
         {
             string query = String.Format("SELECT {1} FROM {0} WHERE {1} IS NOT NULL", tableName, columnName);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -157,7 +157,7 @@ namespace Db.Isolate
         public void ThenTableContainsRecordsWithTheFieldIsNull(string tableName, string columnName)
         {
             string query = String.Format("SELECT {1} FROM {0} WHERE {1} IS NULL", tableName, columnName);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -166,7 +166,7 @@ namespace Db.Isolate
         public void GivenTableContainsRecordsWithTheFieldStringEquals(string tableName, string columnName, string value)        
         {
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}='{2}'", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
         }
 
@@ -234,10 +234,18 @@ namespace Db.Isolate
             _givenQueries.Clear();
         }
 
-        [Then(@"Table ""(.*)"" contains records with")]
-        public void ThenTableContainsRecordsWith(string tableName, Table table)
+        [Then(@"result consists of")]
+        public void ThenTableContainsRecordsWith(Table table)
         {
-            ScenarioContext.Current.Pending();
+            if (this.scenarioContext.ContainsKey("results"))
+            {
+                var results = this.scenarioContext["results"];
+                JArray jsonObject = JArray.Parse(results.ToString());                
+                foreach (var item in table.Rows)
+                {
+                  
+                }
+            }
         }
 
 
@@ -247,7 +255,7 @@ namespace Db.Isolate
             DateTime FromDate = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
             string query = String.Format("SELECT {1} FROM {0} WHERE {1}='{2}' ", tableName, columnName, value);
-            int results = crudOperation.QueryScalar(query);
+            int results = crudOperation.QueryScalarResultCount(query);
             results.ShouldBeGreaterThan(0);
             _givenQueries.Add(String.Format(" {0}='{1}' ", columnName, value));
             if (this.scenarioContext.ContainsKey("_givenQueries"))
@@ -262,13 +270,48 @@ namespace Db.Isolate
 
         [Then(@"Result contains record count greater than ""(.*)""")]
         public void ThenResultContainsRecordCountGreaterThan(int rowCount)
-        {            
+        {     
+            
             string resultJson = this.scenarioContext["results"].ToString();
 
             dynamic stuff = JArray.Parse(resultJson);
             int count = stuff.Count;
             count.ShouldBeGreaterThan(rowCount);
+            
         }
+
+        [Then(@"Table ""(.*)"" contains records with the field ""(.*)"" among the list of values")]
+        public void ThenTableContainsRecordsWithTheFieldAmongTheListOfValues(string tableName, string columnName, Table table)
+        {
+            List<string> allValues = new List<string>();
+            foreach (var item in table.Rows)
+            {
+                allValues.Add(item.Values.ToList().FirstOrDefault());
+            }
+            int length = 0;
+            string query = String.Format("SELECT {1} FROM {0}", tableName, columnName, length);
+            string givenQueryFilter = "";
+            if (_givenQueries.Count > 0)
+            {
+                for (int i = 0; i < _givenQueries.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        givenQueryFilter = " WHERE " + _givenQueries[i];
+                    }
+                    else
+                    {
+                        givenQueryFilter = " AND " + _givenQueries[i];
+                    }
+                }
+            }
+            query = query + givenQueryFilter;
+            var results = crudOperation.Query<string>(query);
+            bool containsAll = allValues.Any(x => results.Contains(x));
+            containsAll.ShouldBeTrue();        
+            _givenQueries.Clear();
+        }
+
 
 
     }

@@ -38,14 +38,52 @@ namespace Db.Isolate
             sqlMasterDbConnection = new SqlConnection(_masterDbconnectionString);
         }
 
-        internal int QueryScalar(string query)
+        internal int QueryScalarIntResult(string query)
+        {
+            object values = DapperRowToObject(query);
+            return Convert.ToInt32(values);
+        }
+
+        private object DapperRowToObject(string query)
+        {
+            var firstRow = sqlConnection.Query(query, transaction: transaction).ToList().FirstOrDefault();
+            var Heading = ((IDictionary<string, object>)firstRow).Keys.ToArray();
+            var details = ((IDictionary<string, object>)firstRow);
+            var values = details[Heading[0]];
+            return values;
+        }
+
+        internal int QueryScalarResultCount(string query)
         {
             return sqlConnection.Query(query , transaction:transaction).ToList().Count;
+        }
+
+        internal string QueryScalarStringResult(string query)
+        {
+            object values = DapperRowToObject(query);
+            return values.ToString();
         }
 
         internal IEnumerable<T> Query<T>(string query)
         {
             return sqlConnection.Query<T>(query, transaction: transaction).ToList();
+        }
+
+        internal string Query(string query)
+        {
+            var output = sqlConnection.Query(query, transaction: transaction);
+            string json = JsonConvert.SerializeObject(
+                output.Select(x => x)
+                , formatting: Newtonsoft.Json.Formatting.Indented
+                  , settings: new JsonSerializerSettings
+                  {
+                      DateParseHandling = DateParseHandling.None,
+                      Converters = { new TextConverter<int>() ,
+                                       new TextConverter<Boolean>()
+                      }
+                  }
+              );
+            return json;
         }
         public static DapperCrud Instance
         {

@@ -12,5 +12,6 @@ namespace Db.Isolate
         string ConvertToJson(Table table);
         string GetInParamJson(string tableJson);
         string GetOutParamJson(string tableJson);
+        
     }
 }

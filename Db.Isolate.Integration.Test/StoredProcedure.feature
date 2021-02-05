@@ -167,9 +167,28 @@ Scenario: TransactionRollbackPattern Execute stored procedure for multi conditio
 	| 3  | xyz | R.M Nagar | true | 2017-06-25T00:00:00 |
 	| 4 | abc  | Electronic city | true | 2017-06-26T00:00:00|	
 	When I execute stored procedure "sp_test"
-	Then Table "Table_input" contains records with 	
+	Then result consists of  	
 	| Field | Condition     | Value      |
 	| Name  | string equals | abc        |
 	| Date  | date equals   | 2017-06-25 |
 	| Name  | length equals   | 3 |
+	And End transaction rollback pattern
+
+
+@TransactionRollbackPattern 
+Scenario: contains few results among the list of values
+	#Given  Using Transaction Rollback database test pattern	with DbName "testdb" and Backup file "D:\Temp\DbBackup\testdb.bak"
+	Given  Using transaction rollback pattern
+	And table name "Table_input" with test data	
+	| Id | Name   | Address   | isPermanentAddress  | Date       |
+	| 3  | xyz | R.M Nagar | true | 2017-06-25T00:00:00 |
+	| 4	| abc  | Electronic city | true | 2017-06-25T00:00:00|
+	| 5 | abc  | Electronic city | true | 2017-06-26T00:00:00|	
+	And Table "Table_input" contains records with the field "Date" date equals "2017-06-25"
+	When I execute stored procedure "sp_test"
+	#Then Table "Table_input" contains records with the field "Date" daterange between "2017-06-25" and "2017-06-26"
+	Then Table "Table_input" contains records with the field "Name" among the list of values
+	| Value |
+	| xyz   |
+	| abc   |
 	And End transaction rollback pattern
